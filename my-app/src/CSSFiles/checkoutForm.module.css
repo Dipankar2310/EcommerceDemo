@@ -1,0 +1,42 @@
+.formContainer {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    }
+    .formContainer h1 {
+    text-align: center;
+    }
+    .formContainer p {
+    margin-bottom: 15px;
+    }
+    .formContainer label {
+    display: block;
+    margin-bottom: 5px;
+    }
+    .formContainer input,
+    .formContainer select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    }
+    .formContainer input[type="submit"] {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    }
+    .formContainer input[type="submit"]:hover {
+    background-color: #0056b3;
+    }
+    .inlineInputs {
+    display: flex;
+    }
+    .inputWrapper {
+    flex: 1;
+    margin-right: 10px; /* Adjust spacing between inputs */
+    }
