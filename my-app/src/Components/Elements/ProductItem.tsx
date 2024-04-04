@@ -13,7 +13,7 @@ export const ProductItem = (props:IProducts) => {
   }
     return (
         <>
-        <div className="four column stackable" key={props.id}>
+        <div className="four column stackable" key={props.id} style={{ margin: '10px' }}>
           <div className="ui link stackable cards ">
           <div className="card">
             <div className="image">

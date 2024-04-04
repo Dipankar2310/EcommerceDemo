@@ -44,7 +44,7 @@ export const useMultipleQuery = (currentPage:number) => {
      };
      const fetchDataJewellery = async () => {
         const response = await axios.get(
-           `https://dummyjson.com/products/category/Jewellery?limit=12&skip=${(currentPage-1)*12}`
+           `https://dummyjson.com/products/category/Jewelery?limit=12&skip=${(currentPage-1)*12}`
         );
         const data = await response.data;
         // setProdData(data);
