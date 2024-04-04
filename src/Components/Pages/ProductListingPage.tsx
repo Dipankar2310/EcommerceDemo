@@ -3,15 +3,9 @@ import { useLocation } from "react-router-dom";
 import { Header } from "../Elements/Header";
 import { Footer } from "../Elements/Footer";
 import { ProductItem } from "../Elements/ProductItem";
-import { useQuery } from "react-query";
 import { Pagination } from "../Elements/Pagination";
 import {useMultipleQuery} from "../../Hooks/useMultipleQuery"
-import axios from "axios";
 
-import styles from "../../CSSFiles/productListPage.module.css"
-import { useSelector } from "react-redux";
-
-import { useAppSelector } from "../../Redux/Hooks/hooks";
 export const ProductListingPage = () => {
     
     const {state}=useLocation();
@@ -19,20 +13,24 @@ export const ProductListingPage = () => {
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [itemsPerPage, setItemsPerPage] = useState<number>(12);
       const responses = useMultipleQuery(currentPage);
-      const resp=responses.filter(res=>res.key===state);
-      const {data,isLoading,isError,error}=resp[0];
-      console.log(responses);
-      console.log(resp)
+      let resp=responses.filter(res=>res.key===state);
+      let {data,isLoading,isError,error}=resp[0];
+      if(data?.total==0){
 
+         resp=responses.filter(res=>res.key=="Tops");
+       data=resp[0].data;
+       let x = Math.random() * 10;
+       if(x>4)data.products.reverse();
+      }
     let productListngPageData;
     let productList=[];
+
     if (isLoading) productListngPageData= <p>Loading...</p>;
     else if (isError) productListngPageData=  <p>Error: {(error as any).message}</p>;
-    else if (!data) productListngPageData=  <p>No data available</p>;
+    else if (data.total==0) productListngPageData=  <p>No data available</p>;
     else{
-    
+   
     productList = data.products.map((prod:IProducts)=>{
-        console.log(prod);
        return <ProductItem brand={prod.brand} category={prod.category} description={prod.description}
        discountPercentage={prod.discountPercentage} id={prod.id} images={prod.images} price={prod.price}
        rating={prod.rating} stock={prod.stock} thumbnail={prod.thumbnail} title={prod.title}

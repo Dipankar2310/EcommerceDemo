@@ -3,37 +3,24 @@ import CheckoutCSS from "../../CSSFiles/checkoutForm.module.css";
 import { topPathsArray } from "../constants";
 import { useNavigate } from "react-router-dom";
 import { useForm } from 'react-hook-form';
+
+import { increment,decrement , clearCart} from "../../Redux/Slices/cartCounter";
+import { useAppDispatch } from "../../Redux/Hooks/hooks";
+
 export const CheckoutForm = () => {
+
+  const dispatch = useAppDispatch();
+
     const navigate = useNavigate();
     const { register, handleSubmit, formState: { errors } } = useForm();
   
   const onSubmit = (data:any) => {
-    console.log(data)
+    dispatch(clearCart())
     alert("Order Confirmed, Navigating to Home Page");
         console.log("submit")
         navigate(topPathsArray.HomePagePath, { replace: true });
-
   };
-let country = useRef<HTMLSelectElement>(null);
-let firstName = useRef<HTMLInputElement>(null);
-let email = useRef<HTMLInputElement>(null);
-let lastName = useRef<HTMLInputElement>(null);
-let mobile = useRef<HTMLInputElement>(null);
-let addressL1 = useRef<HTMLInputElement>(null);
-let addressL2 = useRef<HTMLInputElement>(null);
-let City = useRef<HTMLInputElement>(null);
-let State = useRef<HTMLInputElement>(null);
-let Pincode = useRef<HTMLInputElement>(null);
 
-const [countryError, setCountryError] = useState(false);
-const [firstNameError, setFirstNameError] = useState(false);
-const [emailError, setEmailError] = useState(false);
-const [lastNameError, setLastNameError] = useState(false);
-const [mobileError, setMobileError] = useState(false);
-const [addressError, setAddressError] = useState(false);
-const [CityError, setCityError] = useState(false);
-const [StateError, setStateError] = useState(false);
-const [PincodeError, setPincodeError] = useState(false);
 
 const options=[
 { label: "Select", value: 1, disabled: true },
@@ -41,31 +28,7 @@ const options=[
 { label: "United States", value: 3 },
 ];
 
-const submitHandler=()=>{
-    if(country==null||country?.current?.value===null||country?.current?.value.length==0)setCountryError(true);
-    if(firstName==null||firstName?.current?.value===null||firstName?.current?.value.length==0)setFirstNameError(true);
-    if(email?.current?.value===null||email?.current?.value.length==0||!(email?.current?.value.includes('@')))setEmailError(true);
-    if(lastName?.current?.value===null||lastName?.current?.value.length==0)setLastNameError(true);
-    if(mobile?.current?.value===null||mobile?.current?.value.length!=10)setMobileError(true);
-    if(addressL1?.current?.value===null||addressL1?.current?.value.length==0)setAddressError(true);
-    if(City?.current?.value===null||City?.current?.value.length==0)setCityError(true);
-    if(State?.current?.value===null||State?.current?.value.length==0)setStateError(true);
-    if(Pincode?.current?.value===null||Pincode?.current?.value.length==0)setPincodeError(true);
 
-    console.log(countryError)
-    console.log(firstNameError)
-    console.log(lastNameError)
-    console.log(addressError)
-    console.log(emailError)
-    console.log(mobileError)
-    console.log(StateError)
-    console.log(CityError)
-    console.log(PincodeError)
-    if(!countryError&&!firstNameError&&!lastNameError&&!addressError&&!emailError&&!mobileError&&!CityError&&!StateError&&!PincodeError){
-        
-    }
-
-}
 return (
 <>
 <form onSubmit={handleSubmit(onSubmit)}>
@@ -75,7 +38,7 @@ return (
 <div className="ui equal width form">
 
 <div className="field 4 wide">
-<select ref={country} onFocus={()=>setCityError(false)}>
+<select >
 {options.map(option => (
 <option key={option.value} value={option.value} disabled={option.disabled}>{option.label} </option>
 ))}
@@ -85,7 +48,7 @@ return (
 
 <div className="field" style={{ textAlign: 'left' }}>
 <label>
-First Name <span>*</span>{firstNameError?<p className="ui error message">First name cannot be empty</p>:""}
+First Name 
 </label>
 <input type="text" 
 required
@@ -117,7 +80,6 @@ required
 
 placeholder="Address Line 1"
 
-onFocus={()=>setAddressError(false)}
 {...register("Address", { required: true})}
 />
 {errors.Address && <p>Address is required and must be valid</p>}
@@ -196,7 +158,6 @@ placeholder="9876543210"
 type="email"
 placeholder="Email"
 {...register("email", { required: true, pattern: /^\S+@\S+$/i })}
-onFocus={()=>setEmailError(false)}
 />
 {errors.email && <p>Email is required and must be valid</p>}
 </div>
